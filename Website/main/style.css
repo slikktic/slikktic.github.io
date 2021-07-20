@@ -1,0 +1,9 @@
+body {
+  padding: 0;
+  margin: 0;
+  background-color:#05001f;
+  background-image: url('starsbg.jpg');
+	background-repeat: repeat;
+	background-attachment:fixed;
+	background-size:auto;
+}
