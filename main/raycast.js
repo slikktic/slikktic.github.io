@@ -13,7 +13,6 @@ function preload() {
   music.push(loadSound('../elements/Naked Flames - Rinse Off QUIET.ogg'));
   music.push(loadSound('../elements/Basic Channel - Mutism.ogg'));
 }
-}
 
 function setup() {
   createCanvas(800, 800);
