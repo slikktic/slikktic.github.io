@@ -10,7 +10,7 @@ var board = [];
 var music = [];
 
 function preload() {
-  music.push(loadSound('../elements/Naked Flames - Rinse Off.ogg'));
+  music.push(loadSound('../elements/Naked Flames - Rinse Off QUIET.ogg'));
 }
 
 function setup() {
