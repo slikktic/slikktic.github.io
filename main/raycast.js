@@ -82,12 +82,12 @@ function ray(dir) {
   let dist = 0;
   let lastX = 0;
   let lastY = 0;
-  //find what block is hit by ray
+  //find what coord is hit by ray
   while (board[floor(endX)][floor(endY)] > 0) {
-    //prev
+    //prev location in ray
     lastX = endX;
     lastY = endY;
-    //new
+    //most recent end point in ray
     dist++;
     endX = ((sin(dir) * dist) + playerX) / size;
     endY = ((cos(dir) * dist) + playerY) / size;

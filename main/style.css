@@ -7,3 +7,10 @@ body {
 	background-attachment:fixed;
 	background-size:auto;
 }
+
+.p5Canvas {
+  padding: 0;
+  margin: 0;
+  /*fucking stupid moves right*/
+  width: 560px;
+}
