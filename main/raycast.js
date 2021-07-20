@@ -25,7 +25,7 @@ function setup() {
   noStroke();
   //stroke(255);
   //strokeWeight(1);
-  window.alert('EPILEPSY WARNING');
+  alert('EPILEPSY WARNING');
 }
 
 function draw() {
@@ -172,7 +172,7 @@ function createBackground() {
 function playMusic(){
   //check if song is playing
   var songPlaying = false;
-  for (i=0;i<music.length;i++){
+  for (let i = 0; i < music.length; i++){
       if(music[i].isPlaying() == true){
           songPlaying = true;
       }

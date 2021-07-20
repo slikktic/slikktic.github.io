@@ -8,9 +8,8 @@ body {
 	background-size:auto;
 }
 
-.p5Canvas {
+main {
   padding: 0;
   margin: 0;
-  /*fucking stupid moves right*/
-  width: 560px;
+  text-align: center;
 }
