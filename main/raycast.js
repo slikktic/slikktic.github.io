@@ -11,8 +11,13 @@ var board = [];
 var music = [];
 var randX = Math.floor(Math.random() * (arrayLim - 2)) + 1;
 var randY = Math.floor(Math.random() * (arrayLim - 2)) + 1;
+
 function preload() {
   music.push(loadSound('../elements/planeQUIET.ogg'));
+  music.push(loadSound('../elements/minimalQUIET.ogg'));
+  music.push(loadSound('../elements/fuzzQUIET.ogg'));
+  music.push(loadSound('../elements/purpleQUIET.ogg'));
+
 }
 
 function setup() {
@@ -35,9 +40,9 @@ function draw() {
   render();
   //pov();
   move();
-
-  /*frame++;
-  if (frame % 4 == 0) {
+  /*
+  frame++;
+  if (frame % 1 == 0) {
 
   }*/
 }
@@ -48,20 +53,25 @@ function createArray() {
     for (let col = 0; col < arrayLim; col++) {
       let x = row * size;
       let y = col * size;
-
+      //randomize board from 0-2
       board[row][col] = Math.round(Math.random(2) * 2);
       border(row, col);
+      //set all 2 to 1
       if (board[row][col] == 2) {
         board[row][col] = 1;
       }
+
       fill(200, 0, 0);
       if (board[row][col] > 0) {
         fill(0, 200, 0);
       }
+      //2d array visualized
       //square(x, y, size);
     }
   }
-  //set random space on board to 2
+  //nicer spawn
+  board[playerX / size][playerY / size] = 1;
+  //set random space on board to 2. this will be exit
   board[randX][randY] = 2
 }
 
@@ -109,11 +119,6 @@ function ray(dir) {
   } else {
     shadow = 1;
   }
-  if (floor(lastX) == floor(endX)) {
-    shadow = 0;
-  } else {
-    shadow = 1;
-  }
   return dist;
 }
 
@@ -133,9 +138,10 @@ function render() {
     } else {
       fill(150, 150, 150, alpha);
     }*/
+    //colors & render: x, y, width, height
     fill(17, 17, 17, 0);
-    stroke(180);
-    //render: x, y, width, height
+    //stroke(180);
+    stroke(randNum(160,200),randNum(160,200),randNum(160,200));
     rect(i * 8.83, 400, 4, 10000 / ray(i + angle));
   }
 }
@@ -168,9 +174,9 @@ function move() {
 }
 
 function createBackground() {
-  background(round(random(40)), round(random(40)), round(random(40)));
+  //dim flicker background
+  background(round(random(13)), round(random(13)), round(random(13)));
   //create floor
-  //if playerX < X then fill a brigh
   /*for (i = playerX; i < (randX * size); i++) {
     if (playerX < (randX * size)) {
       i = playerX;
@@ -179,6 +185,7 @@ function createBackground() {
   }*/
   //fill(245 ,213 ,120);
   fill(17);
+  stroke(180);
   rectMode(CORNER);
   rect(-1, 400, width + 2, 700);
   rectMode(RADIUS);
@@ -186,6 +193,7 @@ function createBackground() {
 
 //music player
 function playMusic(){
+  var randomSong = music[Math.floor(random() * music.length)];
   //check if song is playing
   var songPlaying = false;
   for (let i = 0; i < music.length; i++){
@@ -196,5 +204,16 @@ function playMusic(){
   //plays random song if no song is playing
   if (songPlaying == false){
       random(music).play();
+  }
+}
+//random number between a min and max
+function randNum(min, max) {
+  return random() * (max - min) + min;
+}
+//function for fixing console.log lag
+function printOut(output) {
+  frame++;
+  if (frame % 50 == 0) {
+    console.log(output);
   }
 }
