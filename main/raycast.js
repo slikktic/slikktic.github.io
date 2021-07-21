@@ -1,17 +1,18 @@
-var size = 50;
-var arrayLim = 100;
-var center = size * (arrayLim / 2);
+const size = 50;
+const arrayLim = 20;
+//const center = size * (arrayLim / 2);
 var playerX = 100;
 var playerY = 100;
 var angle = 0;
 var shadow = 0;
-var alpha = 255;
+//var alpha = 255;
+var frame = 0;
 var board = [];
 var music = [];
-
+var randX = Math.floor(Math.random() * (arrayLim - 2)) + 1;
+var randY = Math.floor(Math.random() * (arrayLim - 2)) + 1;
 function preload() {
-  music.push(loadSound('../elements/Naked Flames - Rinse Off QUIET.ogg'));
-  music.push(loadSound('../elements/Basic Channel - Mutism.ogg'));
+  music.push(loadSound('../elements/planeQUIET.ogg'));
 }
 
 function setup() {
@@ -29,12 +30,16 @@ function setup() {
 }
 
 function draw() {
+  playMusic();
   createBackground();
   render();
   //pov();
   move();
 
-  playMusic();
+  /*frame++;
+  if (frame % 4 == 0) {
+
+  }*/
 }
 
 function createArray() {
@@ -46,7 +51,9 @@ function createArray() {
 
       board[row][col] = Math.round(Math.random(2) * 2);
       border(row, col);
-
+      if (board[row][col] == 2) {
+        board[row][col] = 1;
+      }
       fill(200, 0, 0);
       if (board[row][col] > 0) {
         fill(0, 200, 0);
@@ -54,7 +61,8 @@ function createArray() {
       //square(x, y, size);
     }
   }
-  //board[playerX / size][playerY / size] = 1;
+  //set random space on board to 2
+  board[randX][randY] = 2
 }
 
 function border(row, col) {
@@ -162,9 +170,17 @@ function move() {
 function createBackground() {
   background(round(random(40)), round(random(40)), round(random(40)));
   //create floor
-  fill(15);
+  //if playerX < X then fill a brigh
+  /*for (i = playerX; i < (randX * size); i++) {
+    if (playerX < (randX * size)) {
+      i = playerX;
+      fill(i);
+    }
+  }*/
+  //fill(245 ,213 ,120);
+  fill(17);
   rectMode(CORNER);
-  rect(0, 400, width, 700);
+  rect(-1, 400, width + 2, 700);
   rectMode(RADIUS);
 }
 
