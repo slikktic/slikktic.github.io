@@ -193,7 +193,7 @@ function createBackground() {
 
 //music player
 function playMusic(){
-  var randomSong = music[Math.floor(random() * music.length)];
+  //var randomSong = music[Math.floor(random() * music.length)];
   //check if song is playing
   var songPlaying = false;
   for (let i = 0; i < music.length; i++){
