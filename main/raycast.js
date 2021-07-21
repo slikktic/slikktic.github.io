@@ -1,5 +1,5 @@
 const size = 50;
-const arrayLim = 20;
+const arrayLim = 100;
 //const center = size * (arrayLim / 2);
 var playerX = 100;
 var playerY = 100;
