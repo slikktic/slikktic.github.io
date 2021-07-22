@@ -1,5 +1,5 @@
 const size = 50;
-const arrayLim = 50;
+const arrayLim = 40;
 //const center = size * (arrayLim / 2);
 var playerX = 100;
 var playerY = 100;
@@ -47,7 +47,6 @@ function draw() {
   //pov();
   move();
 
-  printOut(hyp);
   if (finish = 1) {
     if (hyp < 1.5) {
       window.location.href = "https://slikktic.neocities.org/";
