@@ -1,16 +1,18 @@
 const size = 50;
-const arrayLim = 100;
+const arrayLim = 50;
 //const center = size * (arrayLim / 2);
 var playerX = 100;
 var playerY = 100;
 var angle = 0;
 var shadow = 0;
 //var alpha = 255;
-var frame = 0;
+var freq = 0;
+var floorFreq = 0;
 var board = [];
 var music = [];
 var randX = Math.floor(Math.random() * (arrayLim - 2)) + 1;
 var randY = Math.floor(Math.random() * (arrayLim - 2)) + 1;
+var finish = 0;
 
 function preload() {
   music.push(loadSound('../elements/planeQUIET.ogg'));
@@ -31,20 +33,28 @@ function setup() {
   noStroke();
   //stroke(255);
   //strokeWeight(1);
-  alert('EPILEPSY WARNING');
 }
 
 function draw() {
+  //for creating floor & exit
+  var distX = abs(randX - (playerX / size));
+  var distY = abs(randY - (playerY / size));
+  var hyp = sqrt((distX * distX) + (distY * distY));
+
   playMusic();
-  createBackground();
+  createBackground(hyp);
   render();
   //pov();
   move();
-  /*
-  frame++;
-  if (frame % 1 == 0) {
 
-  }*/
+  printOut(hyp);
+  if (finish = 1) {
+    if (hyp < 1.5) {
+      window.location.href = "https://slikktic.neocities.org/";
+      printOut("FINISH");
+      finish = 0;
+    }
+  }
 }
 
 function createArray() {
@@ -173,18 +183,19 @@ function move() {
   }
 }
 
-function createBackground() {
+function createBackground(hyp) {
   //dim flicker background
   background(round(random(13)), round(random(13)), round(random(13)));
-  //create floor
-  /*for (i = playerX; i < (randX * size); i++) {
-    if (playerX < (randX * size)) {
-      i = playerX;
-      fill(i);
+  //create floor (why the fuck do i need a for loop)
+  for(i = 0; i < 255; i++) {
+    floorFreq++;
+    if (floorFreq % 50 == 0) {
+      //floor color
+      fill(map(hyp * size, 0, 500, 120, 0),
+      map(hyp * size, 0, 500, 120, 0),
+      map(hyp * size, 0, 500, 45, 0));
     }
-  }*/
-  //fill(245 ,213 ,120);
-  fill(17);
+  }
   stroke(180);
   rectMode(CORNER);
   rect(-1, 400, width + 2, 700);
@@ -211,9 +222,10 @@ function randNum(min, max) {
   return random() * (max - min) + min;
 }
 //function for fixing console.log lag
+
 function printOut(output) {
-  frame++;
-  if (frame % 50 == 0) {
+  freq++;
+  if (freq % 50 == 0) {
     console.log(output);
   }
 }
