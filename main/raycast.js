@@ -1,25 +1,47 @@
+//size of squares/walls
 const size = 50;
+//size of world
 const arrayLim = 40;
-//const center = size * (arrayLim / 2);
-var playerX = 100;
-var playerY = 100;
-var angle = 0;
-var shadow = 0;
-//var alpha = 255;
-var freq = 0;
-var floorFreq = 0;
 var board = [];
-var music = [];
+//exit
 var randX = Math.floor(Math.random() * (arrayLim - 2)) + 1;
 var randY = Math.floor(Math.random() * (arrayLim - 2)) + 1;
 var finish = 0;
-
+//const center = size * (arrayLim / 2);
+//location & orientation of player
+var playerX = 100;
+var playerY = 100;
+var angle = 0;
+//speed modulation
+var frame = 0;
+var freq = 0;
+var floorFreq = 0;
+//music
+var music = [];
+var randomSong;
+//for coloring blocks
+//var shadow = 0;
+//var sAlpha = 255;
+//wall colors
+var redW;
+var greenW;
+var blueW;
+//wall edge colors
+var redS;
+var greenS;
+var blueS;
+//background color
+var bgColor;
+var floorR = 10;
+var floorG = 10;
+var floorB = 10;
+var starPos = [];
 function preload() {
   music.push(loadSound('../elements/planeQUIET.ogg'));
   music.push(loadSound('../elements/minimalQUIET.ogg'));
   music.push(loadSound('../elements/fuzzQUIET.ogg'));
   music.push(loadSound('../elements/purpleQUIET.ogg'));
-
+  randomSong = music[Math.floor(random() * music.length)];
 }
 
 function setup() {
@@ -29,10 +51,7 @@ function setup() {
   createArray();
   //for pov & ray
   angleMode(DEGREES);
-
   noStroke();
-  //stroke(255);
-  //strokeWeight(1);
 }
 
 function draw() {
@@ -46,12 +65,12 @@ function draw() {
   render();
   //pov();
   move();
-
-  if (finish = 1) {
+  //printOut(hyp);
+  if (finish == 0) {
     if (hyp < 1.5) {
       window.location.href = "https://slikktic.neocities.org/";
       printOut("FINISH");
-      finish = 0;
+      finish = 1;
     }
   }
 }
@@ -103,6 +122,7 @@ function border(row, col) {
   }
 }
 
+//figures out distance from walls based off of # of rays input
 function ray(dir) {
   let endX = floor(playerX / size);
   let endY = floor(playerY / size);
@@ -123,14 +143,15 @@ function ray(dir) {
   }
   //if X coord before recent X coord is floored (rounded down)
   //then its in another square (applies shadow to that side)
-  if (floor(lastX) == floor(endX)) {
+  /*if (floor(lastX) == floor(endX)) {
     shadow = 0;
   } else {
     shadow = 1;
-  }
+  }*/
   return dist;
 }
 
+//for 2d rays
 function pov() {
   stroke(0, 0, 255);
   for (let dir = 0; dir <= 90; dir++) {
@@ -138,33 +159,106 @@ function pov() {
   }
 }
 
+//renders walls
 function render() {
-  //send multiple rays out
+  //sends multiple rays out
   for(let i = 0; i <= 90; i++) {
     //if shadow  != 1 then darken
     /*if (shadow == 1) {
-      fill(200, 200, 200, alpha);
+      fill(200, 200, 200, sAlpha);
     } else {
-      fill(150, 150, 150, alpha);
+      fill(150, 150, 150, sAlpha);
     }*/
     //colors & render: x, y, width, height
-    fill(17, 17, 17, 0);
+    fill(redW, greenW, blueW, alpha);
     //stroke(180);
-    stroke(randNum(160,200),randNum(160,200),randNum(160,200));
+    //stroke(redS,greenS,blueS);
+    floorAndWallColor();
+    stroke(redS,greenS,blueS);
     rect(i * 8.83, 400, 4, 10000 / ray(i + angle));
   }
 }
 
+function createBackground(hyp) {
+  backgroundColor();
+  //create floor (why the fuck do i need a for loop)
+  for(i = 0; i < 200; i++) {
+    floorFreq++;
+    if (floorFreq % 50 == 0) {
+      //floor color
+      if (hyp < 10) {
+        fill(map(hyp * size, 0, 500, 120, floorR),
+        map(hyp * size, 0, 500, 120, floorG),
+        map(hyp * size, 0, 500, 45, floorB));
+      } else {
+        //floor color when not near center
+        fill(floorR, floorG, floorB);
+      }
+    }
+  }
+  //horizon line gone
+  noStroke();
+  //rest of floorw
+  rectMode(CORNER);
+  rect(-1, 400, width + 2, 700);
+  rectMode(RADIUS);
+}
+
+//background
+function backgroundColor() {
+  if (music[3].isPlaying()) {
+    background(0, 0, 21);
+    //stars(1000);
+  } else {
+    //dim flicker background
+    background(round(random(13)), round(random(13)), round(random(13)));
+  }
+}
+
+/*function stars(amount) {
+  stroke(200);
+  strokeWeight(3);
+  for (i = 0; i < amount; i++) {
+    point(i, 200);
+  }
+}*/
+
+//colors for floor and wall
+function floorAndWallColor() {
+  if (music[3].isPlaying()) {
+    strokeWeight(1);
+    redS = randNum(90,110);
+    blueS = randNum(90,110);
+    greenS = randNum(0,10);
+    alpha = 255;
+    //floor color
+    floorR = 10;
+    floorG = 0;
+    floorB = 15;
+    fill(20, 0, 5);
+  } else {
+    strokeWeight(1);
+    redS = randNum(160,200);
+    blueS = randNum(160,200);
+    greenS = randNum(160,200);
+    alpha = 0;
+    floorR = 10;
+    floorG = 10;
+    floorB = 10;
+    fill(0);
+  }
+}
+//player movement
 function move() {
-  //right
+  //right (d)
   if(keyIsDown(68)) {
     angle = angle + 2;
   }
-  //left
+  //left (a)
   if(keyIsDown(65)) {
     angle = angle - 2;
   }
-  //up
+  //up (w)
   if(keyIsDown(87)) {
     if (board[floor((playerX + (sin(angle + 45)) * 2) / size)]
     [floor((playerY + (cos(angle + 45)) * 2) / size)] != 0) {
@@ -172,7 +266,7 @@ function move() {
       playerY = (playerY + (cos(angle + 45)) * 2);
     }
   }
-  //down
+  //down (s)
   if(keyIsDown(83)) {
     if (board[floor((playerX - (sin(angle + 45)) * 2) / size)]
     [floor((playerY - (cos(angle + 45)) * 2) / size)] != 0) {
@@ -181,29 +275,8 @@ function move() {
     }
   }
 }
-
-function createBackground(hyp) {
-  //dim flicker background
-  background(round(random(13)), round(random(13)), round(random(13)));
-  //create floor (why the fuck do i need a for loop)
-  for(i = 0; i < 255; i++) {
-    floorFreq++;
-    if (floorFreq % 50 == 0) {
-      //floor color
-      fill(map(hyp * size, 0, 500, 120, 0),
-      map(hyp * size, 0, 500, 120, 0),
-      map(hyp * size, 0, 500, 45, 0));
-    }
-  }
-  stroke(180);
-  rectMode(CORNER);
-  rect(-1, 400, width + 2, 700);
-  rectMode(RADIUS);
-}
-
 //music player
 function playMusic(){
-  //var randomSong = music[Math.floor(random() * music.length)];
   //check if song is playing
   var songPlaying = false;
   for (let i = 0; i < music.length; i++){
@@ -213,15 +286,17 @@ function playMusic(){
   }
   //plays random song if no song is playing
   if (songPlaying == false){
-      random(music).play();
+      //random(music).play();
+      randomSong.play();
   }
 }
+
 //random number between a min and max
 function randNum(min, max) {
   return random() * (max - min) + min;
 }
-//function for fixing console.log lag
 
+//function for fixing console.log lag
 function printOut(output) {
   freq++;
   if (freq % 50 == 0) {
