@@ -12,10 +12,6 @@ var finish = 0;
 var playerX = 100;
 var playerY = 100;
 var angle = 0;
-//speed modulation
-var frame = 0;
-var freq = 0;
-var floorFreq = 0;
 //music
 var music = [];
 var randomSong;
@@ -31,16 +27,24 @@ var redS;
 var greenS;
 var blueS;
 //background color
+var bgR;
+var bgG;
+var bgB;
 var bgColor;
+//floor color
 var floorR = 10;
 var floorG = 10;
 var floorB = 10;
+//misc background
 var starPos = [];
+
+//preloads music files or else code wont work
 function preload() {
   music.push(loadSound('../elements/planeQUIET.ogg'));
   music.push(loadSound('../elements/minimalQUIET.ogg'));
   music.push(loadSound('../elements/fuzzQUIET.ogg'));
   music.push(loadSound('../elements/purpleQUIET.ogg'));
+  //this also decides which scene is going to be chosen
   randomSong = music[Math.floor(random() * music.length)];
 }
 
@@ -59,16 +63,16 @@ function draw() {
   var distX = abs(randX - (playerX / size));
   var distY = abs(randY - (playerY / size));
   var hyp = sqrt((distX * distX) + (distY * distY));
-
-  playMusic();
+  //plays music and sets up background based off of the song
+  scene();
   createBackground(hyp);
   render();
   //pov();
   move();
-  //printOut(hyp);
+  printOut(frameRate);
   if (finish == 0) {
     if (hyp < 1.5) {
-      window.location.href = "https://slikktic.neocities.org/";
+      window.location.href = "https://kikolite.neocities.org/";
       printOut("FINISH");
       finish = 1;
     }
@@ -180,30 +184,33 @@ function render() {
 }
 
 function createBackground(hyp) {
-  backgroundColor();
-  //create floor (why the fuck do i need a for loop)
-  for(i = 0; i < 200; i++) {
-    floorFreq++;
-    if (floorFreq % 50 == 0) {
-      //floor color
-      if (hyp < 10) {
-        fill(map(hyp * size, 0, 500, 120, floorR),
-        map(hyp * size, 0, 500, 120, floorG),
-        map(hyp * size, 0, 500, 45, floorB));
-      } else {
-        //floor color when not near center
-        fill(floorR, floorG, floorB);
-      }
-    }
+  //backgroundColor();
+  scene();
+  //create floor colors
+  if (hyp < 10) {
+    fill(map(hyp * size, 0, 500, 120, floorR),
+    map(hyp * size, 0, 500, 120, floorG),
+    map(hyp * size, 0, 500, 45, floorB));
+  } else {
+    //floor color when not near center
+    fill(floorR, floorG, floorB);
   }
   //horizon line gone
   noStroke();
-  //rest of floorw
+  //rest of floor
   rectMode(CORNER);
   rect(-1, 400, width + 2, 700);
   rectMode(RADIUS);
 }
 
+function scene() {
+  playMusic();
+  if (music[3].isPlaying()) {
+    background(0, 0, 21);
+  } else {
+    bgcolor = background(round(random(13)), round(random(13)), round(random(13)));
+  }
+}
 //background
 function backgroundColor() {
   if (music[3].isPlaying()) {
@@ -214,7 +221,10 @@ function backgroundColor() {
     background(round(random(13)), round(random(13)), round(random(13)));
   }
 }
-
+//background lines
+function strikes() {
+  line(round(random(width)), 0, round(random(width)), height / 2);
+}
 /*function stars(amount) {
   stroke(200);
   strokeWeight(3);
@@ -226,6 +236,7 @@ function backgroundColor() {
 //colors for floor and wall
 function floorAndWallColor() {
   if (music[3].isPlaying()) {
+    //wall color
     strokeWeight(1);
     redS = randNum(90,110);
     blueS = randNum(90,110);
@@ -237,11 +248,13 @@ function floorAndWallColor() {
     floorB = 15;
     fill(20, 0, 5);
   } else {
+    //wall color
     strokeWeight(1);
     redS = randNum(160,200);
     blueS = randNum(160,200);
     greenS = randNum(160,200);
     alpha = 0;
+    //floor color
     floorR = 10;
     floorG = 10;
     floorB = 10;
@@ -298,8 +311,7 @@ function randNum(min, max) {
 
 //function for fixing console.log lag
 function printOut(output) {
-  freq++;
-  if (freq % 50 == 0) {
+  if (frameCount % 50 == 0) {
     console.log(output);
   }
 }
