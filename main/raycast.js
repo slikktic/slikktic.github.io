@@ -1,3 +1,7 @@
+if (WURFL.is_mobile === true) {
+  window.location.replace("/main.html"); //test url
+}
+
 //size of squares/walls
 const size = 50;
 //size of world
@@ -12,8 +16,12 @@ var finish = 0;
 var playerX = 100;
 var playerY = 100;
 var angle = 0;
+//setup
+var doTutorial = true;
 //music
 var music = [];
+var dit = [];
+var retrigger = true;
 var randomSong;
 //for coloring blocks
 //var shadow = 0;
@@ -37,10 +45,13 @@ var floorG = 10;
 var floorB = 10;
 //misc background
 var starPos = [];
+var fog;
+var glowStart = 15;
 //oscillation
 let oscBool = false;
 var wave = 0;
 var osc;
+let ms = 0;
 
 //preloads music files or else code wont work
 function preload() {
@@ -49,8 +60,17 @@ function preload() {
   music.push(loadSound('../elements/fuzzQUIET.ogg'));
   music.push(loadSound('../elements/purpleQUIET.ogg'));
   //this also decides which scene is going to be chosen
+  music.push(loadSound('../elements/hisscut.ogg'))
+  music.push(loadSound('../elements/fireflies2infQUIET.ogg'));
   randomSong = music[Math.floor(random() * music.length)];
-  //randomSong = music[3];
+  //dits
+  dit.push(loadSound('../elements/g2.ogg'));
+  dit.push(loadSound('../elements/a2.ogg'));
+  dit.push(loadSound('../elements/e3.ogg'));
+  dit.push(loadSound('../elements/g3.ogg'));
+  dit.push(loadSound('../elements/a3.ogg'));
+  dit.push(loadSound('../elements/c4.ogg'));
+  dit.push(loadSound('../elements/e4.ogg'));
 }
 
 function setup() {
@@ -62,6 +82,8 @@ function setup() {
   //for pov & ray
   angleMode(DEGREES);
   noStroke();
+
+  if (doTutorial) { tutorial(); }
 }
 
 function draw() {
@@ -78,10 +100,16 @@ function draw() {
   move();
   if (finish == 0) {
     if (hyp < 1.5) {
-      window.location.href = "https://kikolite.neocities.org/";
+      window.location.href = '/main.html'; //"https://slikktic.github.io/main.html";
       printOut("FINISH");
       finish = 1;
     }
+  }
+  fps();
+
+  // playdit
+  if ((frameCount % 100) == 0) {
+    retrigger = true;
   }
 }
 
@@ -94,7 +122,7 @@ function createArray() {
       //randomize board from 0-2
       board[row][col] = Math.round(Math.random(2) * 2);
       border(row, col);
-      //set all 2 to 1
+      //set all 2 to 1 for mnore empty space
       if (board[row][col] == 2) {
         board[row][col] = 1;
       }
@@ -151,13 +179,9 @@ function ray(dir) {
     //draw line
     //line(playerX, playerY, endX * size, endY * size);
   }
-  //if X coord before recent X coord is floored (rounded down)
-  //then its in another square (applies shadow to that side)
-  /*if (floor(lastX) == floor(endX)) {
-    shadow = 0;
-  } else {
-    shadow = 1;
-  }*/
+
+  proxVisuals(dist);
+
   return dist;
 }
 
@@ -173,19 +197,19 @@ function pov() {
 function render() {
   //sends multiple rays out
   for(let i = 0; i <= 90; i++) {
-    /*if shadow  != 1 then darken
-    if (shadow == 1) {
-      fill(200, 200, 200, sAlpha);
-    } else {
-      fill(150, 150, 150, sAlpha);
-    }*/
     //colors & render: x, y, width, height
     fill(redW, greenW, blueW, alpha);
-    //stroke(180);
-    //stroke(redS,greenS,blueS);
     floorAndWallColor();
     stroke(redS,greenS,blueS);
-    rect(i * 8.83, 400, 4, 10000 / ray(i + angle));
+    var rayfull = ray(i + angle)
+    if (!renderdist) {
+      rect(i * 8.83, 400, 4, 10000 / rayfull);
+    }
+
+    if (renderdist && music[5].isPlaying()) {
+      stroke(235,255,155);
+      rect(i * 8.83, 400, 4, 10000 / rayfull);
+    }
   }
 }
 
@@ -210,26 +234,41 @@ function createBackground(hyp) {
 }
 
 function scene() {
-  playMusic();
-  if (music[3].isPlaying()) { //purple
-    //background(0, 0, 21);
-    background(0, 0, map(osc, 0, 99, 11, 23));
-    strikes();
-  } else if (music[2].isPlaying()) { //fuzz
-    background(randNum(21, 23), randNum(1, 2), randNum(4, 5));
-  } else if (music[1].isPlaying()) { //minimal
-    background(0, 0, 0);
-  } else { //stock
+  if (music[0].isPlaying()) { //plane
     //dim flicker background
     background(round(random(13)), round(random(13)), round(random(13)));
+  } else if (music[1].isPlaying()) { //minimal
+    background(0, 0, 0);
+  } else if (music[2].isPlaying()) { //fuzz
+    background(randNum(21, 23), randNum(1, 2), randNum(4, 5));
+  } else if (music[3].isPlaying()) { //purple
+    //background(0, 0, 21);
+    background(0, 0, map(osc, 0, 99, 11, 23));
+    strikes("strobe");
+  } else if (music[4].isPlaying()) { //rain
+    background(194, 210, 246);
+    strikes("rain");
+  } else if (music[5].isPlaying()) { //fireflies
+    background(7, 15, 48);
+  } else {
+    background(0);
   }
 }
 //background lines
-function strikes() {
-  strokeWeight(10);
-  stroke(0, 0, randNum(25, 45));
-  line(round(random(width)), 0, round(random(width)), height / 2);
-  strokeWeight(1);
+function strikes(mode) {
+  if (mode == "strobe") {
+    strokeWeight(10);
+    stroke(0, 0, randNum(25, 45));
+    line(round(random(width)), 0, round(random(width)), height / 2);
+    strokeWeight(1);
+  }
+  if (mode == "rain") {
+    strokeWeight(5);
+    stroke(150, 210, 255);
+    var spot = round(random(width));
+    line(spot, 0, spot, height / 2);
+    strokeWeight(1);
+  }
 }
 /*function stars(amount) {
   stroke(200);
@@ -241,7 +280,40 @@ function strikes() {
 
 //colors for floor and wall
 function floorAndWallColor() {
-  if (music[3].isPlaying()) { //purple
+  if (music[0].isPlaying()) { //rain
+    //wall stroke color
+    strokeWeight(1);
+    redS = randNum(160,200);
+    blueS = randNum(160,200);
+    greenS = randNum(160,200);
+    //wall color
+    alpha = 0;
+    fill(0);
+    //floor color
+    floorR = floorG = floorB = 9;
+
+  } else if (music[1].isPlaying()){ //minimal
+    //wall stroke color
+    strokeWeight(1);
+    redS = blueS = greenS = 0;
+    //wall color
+    alpha = 255;
+    fill(randNum(137,200), randNum(185,215), 255);
+    //floor color
+    floorR = floorG = floorB = 0;
+
+  } else if (music[2].isPlaying()) { //fuzz
+    //wall stroke color
+    strokeWeight(1);
+    redS = blueS = greenS = 0;
+    //wall color
+    alpha = 255;
+    fill(9);
+    //floor color
+    floorR = floorG = 5;
+    floorB = 8;
+
+  } else if (music[3].isPlaying()) { //purple
     //wall stroke color
     if (frameCount % 200 == 0) {
       strokeWeight(randNum(0, 1));
@@ -256,58 +328,92 @@ function floorAndWallColor() {
     floorR = 10;
     floorG = 0;
     floorB = 15;
-  } else if (music[2].isPlaying()) { //fuzz
+
+  } else if (music[4].isPlaying()) { //rain
     //wall stroke color
-    strokeWeight(1);
-    redS = blueS = greenS = 0;
+    strokeWeight(2);
+    redS = blueS = greenS = 255;
     //wall color
     alpha = 255;
-    fill(9);
+    fill(randNum(250,255), randNum(250,255), 240);
     //floor color
-    floorR = floorG = 5;
-    floorB = 8;
-  } else if (music[1].isPlaying()){ //minimal
+    floorR = floorG = floorB = 215;
+
+  } else if (music[5].isPlaying()) { //fireflies
     //wall stroke color
-    strokeWeight(1);
-    redS = blueS = greenS = 0;
+    redS = 37;
+    greenS = 46;
+    blueS = 0;
+    strokeWeight(2);
     //wall color
-    alpha = 255;
-    fill(randNum(137,200), randNum(185,215), 255);
-    //floor color
-    floorR = floorG = floorB = 0;
-  } else { //stock
-    //wall stroke color
-    strokeWeight(1);
-    redS = randNum(160,200);
-    blueS = randNum(160,200);
-    greenS = randNum(160,200);
-    //wall color
-    alpha = 0;
     fill(0);
     //floor color
-    floorR = floorG = floorB = 9;
+    floorR = 3;
+    floorG = 20;
+    floorB = 7;
+
+  } else { //stock
+    strokeWeight(1);
+    redS = blueS = greenS = 255;
+    fill(0);
+    floorR = floorG = floorB = 0;
+  }
+}
+
+function proxVisuals(dist) {
+  if (music[4].isPlaying()) { fog = true; }
+
+  if ((dist >= 120) && fog) {
+    renderdist = true;
+  } else {
+    renderdist = false;
+  }
+  if (music[5].isPlaying()) { glowStart = 100; }
+  if (dist <= glowStart) {
+    if (music[4].isPlaying()) { ditTrigger(); }
+    if (music[5].isPlaying()) { renderdist = true; }
+  } else {
+    if (music[5].isPlaying()) { renderdist = false; }
+  }
+}
+//tutorial info screen
+function tutorial() {
+  fill(17);
+  square(width/2, height/2, 300);
+  fill(255);
+  textFont('monospace');
+  textSize(30);
+  text("WASD/Arrow Keys to move", width/2 - 180, height/2 - 100);
+  text("Click to Play", width/2 - 106, height/2 + 100);
+}
+
+function ditTrigger() {
+  randomDit = dit[Math.floor(random() * music.length)];
+  if (retrigger) {
+    retrigger = false;
+    randomDit.play();
   }
 }
 //player movement
 function move() {
-  //right (d)
-  if(keyIsDown(68)) {
+  //right (d = 68) (arrowright = 39)
+  if(keyIsDown(68) || keyIsDown(39)) {
     angle = angle + 2;
   }
-  //left (a)
-  if(keyIsDown(65)) {
+  //left (a = 65) (arrowleft = 37)
+  if(keyIsDown(65) || keyIsDown(37)) {
     angle = angle - 2;
   }
-  //up (w)
-  if(keyIsDown(87)) {
+  //up (w = 87) (arrowup = 38)
+  if(keyIsDown(87) || keyIsDown(38)) {
     if (board[floor((playerX + (sin(angle + 45)) * 2) / size)]
     [floor((playerY + (cos(angle + 45)) * 2) / size)] != 0) {
       playerX = (playerX + (sin(angle + 45)) * 2);
       playerY = (playerY + (cos(angle + 45)) * 2);
     }
   }
-  //down (s)
-  if(keyIsDown(83)) {
+  //down (s = 83) (arrowdown = 40)
+  if(keyIsDown(83) || keyIsDown(40)) {
     if (board[floor((playerX - (sin(angle + 45)) * 2) / size)]
     [floor((playerY - (cos(angle + 45)) * 2) / size)] != 0) {
       playerX = playerX - (sin(angle + 45));
@@ -315,19 +421,21 @@ function move() {
     }
   }
 }
+
+//mouseclick
+function mouseClicked() {
+  doTutorial = false;
+}
+
 //music player
 function playMusic(){
-  //check if song is playing
   var songPlaying = false;
-  for (let i = 0; i < music.length; i++){
-      if(music[i].isPlaying() == true){
-          songPlaying = true;
-      }
+  if (randomSong.isPlaying() == true) {
+    songPlaying = true;
   }
   //plays random song if no song is playing
   if (songPlaying == false){
-      //random(music).play();
-      randomSong.play();
+      randomSong.loop(true);
   }
 }
 
@@ -336,6 +444,8 @@ function randNum(min, max) {
   return random() * (max - min) + min;
 }
 
+//oscillates 1-100 back and forth. used for a background glow change
+//NOTE: make more efficient with sin()
 function oscillate() {
   if ((oscBool == true) && (wave < 100)) {
     wave--;
@@ -356,4 +466,11 @@ function printOut(output) {
   if (frameCount % 50 == 0) {
     console.log(output);
   }
+}
+
+function fps() {
+  fill(255);
+  stroke(0);
+  textSize(20);
+  text(round(frameRate()), 5, 25);
 }

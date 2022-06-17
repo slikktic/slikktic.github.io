@@ -1,16 +1,62 @@
 body {
   padding: 0;
   margin: 0;
-  background-color:#05001f;
-  background-image: url('starsbg.jpg');
-	background-repeat: repeat;
-	background-attachment:fixed;
-	background-size:auto;
 }
 
 main {
+  position: relative;
   padding: 0;
   margin: 0;
   text-align: center;
-  /*opacity: .9;*/
+}
+
+.primarydiv {
+  position: fixed;
+  top: 0;
+  left: 12.5%;
+  padding: 0;
+  margin: 0;
+  width: 75%;
+  height: 100%;
+  background-color: #040018;
+}
+
+#secondarydiv {
+  position: fixed;
+  left: 15%;
+  width: 70%;
+  background-color: #040018;
+}
+
+#titlebox {
+  position: relative;
+  text-align: center;
+  border-color: #4e0048;
+  border-width: 5px;
+  border-bottom-style: double;
+}
+
+#text {
+  color: #b8b8b8;
+  font-family: monospace;
+}
+
+#starsbg {
+  background-color: #040018;
+  background-image: url('starsbg.jpg');
+	background-repeat: repeat;
+	background-attachment: fixed;
+  background-size: auto;
+}
+
+@media (max-width: 810px) {
+  .primarydiv {
+    width: 90%;
+    left: 5%;
+  }
+
+  #secondarydiv {
+    width: 85%;
+    left: 7.5%;
+  }
 }
