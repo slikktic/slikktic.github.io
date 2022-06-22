@@ -83,7 +83,6 @@ function setup() {
   angleMode(DEGREES);
   noStroke();
 
-  if (doTutorial) { tutorial(); }
 }
 
 function draw() {
@@ -105,12 +104,13 @@ function draw() {
       finish = 1;
     }
   }
-  fps();
+  //fps();
 
   // playdit
   if ((frameCount % 100) == 0) {
     retrigger = true;
   }
+  if (doTutorial) { tutorial(); }
 }
 
 function createArray() {
