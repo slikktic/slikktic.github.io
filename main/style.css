@@ -21,6 +21,27 @@ main {
   background-color: #040018;
 }
 
+.tablinks {
+  border: none;
+}
+
+a:link, a:visited {
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  background: #0a0042;
+  width:10%;
+}
+
+a:hover, a:active {
+  background-color:#f00;
+}
+
+.button:hover {
+  background-color: #f00;
+  font-size:50px;
+}
+
 #secondarydiv {
   position: fixed;
   left: 15%;
@@ -34,6 +55,12 @@ main {
   border-color: #4e0048;
   border-width: 5px;
   border-bottom-style: double;
+}
+
+#tabs {
+  border-color: #4e0048;
+  border-width: 5px;
+  border-top-style: double;
 }
 
 #text {

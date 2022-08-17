@@ -10,7 +10,7 @@ var board = [];
 //exit
 var randX = Math.floor(Math.random() * (arrayLim - 2)) + 1;
 var randY = Math.floor(Math.random() * (arrayLim - 2)) + 1;
-var finish = 0;
+var finished = false;
 //const center = size * (arrayLim / 2);
 //location & orientation of player
 var playerX = 100;
@@ -97,11 +97,11 @@ function draw() {
   render();
   //pov();
   move();
-  if (finish == 0) {
+  if (finished == false) {
     if (hyp < 1.5) {
       window.location.href = '/main.html'; //"https://slikktic.github.io/main.html";
-      printOut("FINISH");
-      finish = 1;
+      // printOut("FINISH");
+      finished = true;
     }
   }
   //fps();
@@ -461,6 +461,7 @@ function oscillate() {
   }
   osc = wave;
 }
+
 //function for fixing console.log lag
 function printOut(output) {
   if (frameCount % 50 == 0) {
