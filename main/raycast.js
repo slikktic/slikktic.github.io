@@ -1,6 +1,6 @@
-if (WURFL.is_mobile === true) {
-  window.location.replace("/main.html"); //test url
-}
+// if (WURFL.is_mobile === true) {
+//   window.location.replace("main.html"); //test url
+// }
 
 //size of squares/walls
 const size = 50;
@@ -55,22 +55,22 @@ let ms = 0;
 
 //preloads music files or else code wont work
 function preload() {
-  music.push(loadSound('../elements/planeQUIET.ogg'));
-  music.push(loadSound('../elements/minimalQUIET.ogg'));
-  music.push(loadSound('../elements/fuzzQUIET.ogg'));
-  music.push(loadSound('../elements/purpleQUIET.ogg'));
+  music.push(loadSound('elements/planeQUIET.ogg'));
+  music.push(loadSound('elements/minimalQUIET.ogg'));
+  music.push(loadSound('elements/fuzzQUIET.ogg'));
+  music.push(loadSound('elements/purpleQUIET.ogg'));
   //this also decides which scene is going to be chosen
-  music.push(loadSound('../elements/hisscut.ogg'))
-  music.push(loadSound('../elements/fireflies2infQUIET.ogg'));
+  music.push(loadSound('elements/hisscut.ogg'))
+  music.push(loadSound('elements/fireflies2infQUIET.ogg'));
   randomSong = music[Math.floor(random() * music.length)];
-  //dits
-  dit.push(loadSound('../elements/g2.ogg'));
-  dit.push(loadSound('../elements/a2.ogg'));
-  dit.push(loadSound('../elements/e3.ogg'));
-  dit.push(loadSound('../elements/g3.ogg'));
-  dit.push(loadSound('../elements/a3.ogg'));
-  dit.push(loadSound('../elements/c4.ogg'));
-  dit.push(loadSound('../elements/e4.ogg'));
+  // //dits
+  dit.push(loadSound('elements/g2.ogg'));
+  dit.push(loadSound('elements/a2.ogg'));
+  dit.push(loadSound('elements/e3.ogg'));
+  dit.push(loadSound('elements/g3.ogg'));
+  dit.push(loadSound('elements/a3.ogg'));
+  dit.push(loadSound('elements/c4.ogg'));
+  dit.push(loadSound('elements/e4.ogg'));
 }
 
 function setup() {
@@ -99,7 +99,7 @@ function draw() {
   move();
   if (finished == false) {
     if (hyp < 1.5) {
-      window.location.href = '/main.html'; //"https://slikktic.github.io/main.html";
+      window.location.href = 'main.html'; //"https://slikktic.github.io/main.html";
       // printOut("FINISH");
       finished = true;
     }
