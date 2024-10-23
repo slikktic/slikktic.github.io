@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-<html lang="" onclick="playMusic()">
+<html lang="">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub</title>
+  <title>Main</title>
 
-  <!-- <script type='text/javascript' src="https://wurfl.io/wurfl.js"></script> -->
   <link rel="stylesheet" href="main/style.css">
   <script src="p5.js"></script>
   <script src="addons/p5.sound.js"></script>
-  <script src="main/raycast.js"></script>
+  <script src="main/rule110.js"></script>
 </head>
 
-<body id="starsbg">
-  <main></main>
+<body id="bandcampbg">
+  <main onclick="playMusic()"></main>
+  
+  <div class="primarydiv" id="bandcampbg">
+    <!-- <div id="blur"></div> -->
+    <div class="primarydiv" id="secondarydiv">
+
+      <div id="titlebox">
+        <p id="text"> &lt;ezeki.xyz&gt;</h1>
+        <div id="tabs">
+          <a href="https://ezeki.bandcamp.com" class="a">bandcamp</a>
+          <a href="https://soundcloud.com/eze_ki" class="a">soundcloud</a>
+          <a href="https://bsky.app/profile/slikktic.bsky.social" class="a">bluesky</a>
+
+        </div>
+      </div>
+
+      <p id="text">home of my mind</h1>
+    </div>
+  </div>
+  <img src="main/trans_tree.png" alt="nowork" id="treebg">
 </body>
 
 </html>

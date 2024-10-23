@@ -1,6 +1,9 @@
 // if (WURFL.is_mobile === true) {
 //   window.location.replace("main.html"); //test url
 // }
+if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+  location.replace("main.html");
+}
 
 //size of squares/walls
 const size = 50;

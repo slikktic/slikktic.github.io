@@ -1,6 +1,11 @@
 body {
   padding: 0;
   margin: 0;
+  
+}
+
+canvas {
+ height:100%;
 }
 
 main {
@@ -8,6 +13,11 @@ main {
   padding: 0;
   margin: 0;
   text-align: center;
+  /* mix-blend-mode:color-dodge; */
+}
+
+canvas {
+  backdrop-filter: blur(5px);
 }
 
 .primarydiv {
@@ -21,24 +31,22 @@ main {
   background-color: #040018;
 }
 
-.tablinks {
-  border: none;
-}
-
 a:link, a:visited {
   color: #ffffff;
   text-decoration: none;
   display: block;
-  background: #0a0042;
-  width:10%;
+  background: #150d42;
+  width:20%;
 }
 
 a:hover, a:active {
-  background-color:#f00;
+  background-color:rgb(40, 39, 85);
+  border-style: solid;
+  border-color:#150d42;
 }
 
 .button:hover {
-  background-color: #f00;
+  background-color:rgb(177, 7, 7);
   font-size:50px;
 }
 
@@ -46,7 +54,9 @@ a:hover, a:active {
   position: fixed;
   left: 15%;
   width: 70%;
-  background-color: #040018;
+  background-color: rgba(4, 0, 24, 0.96); /* #191333 */
+  /* opacity: 97%; */
+  
 }
 
 #titlebox {
@@ -58,14 +68,21 @@ a:hover, a:active {
 }
 
 #tabs {
-  border-color: #4e0048;
+  border-color: #4e0048; /* #4e0048 */
   border-width: 5px;
   border-top-style: double;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  font-family: monospace;
+  font-size:22px;
 }
 
 #text {
   color: #b8b8b8;
   font-family: monospace;
+  font-size:16px;
 }
 
 #starsbg {
@@ -74,6 +91,34 @@ a:hover, a:active {
 	background-repeat: repeat;
 	background-attachment: fixed;
   background-size: auto;
+}
+
+#bandcampbg {
+  background-color: #040018;
+  background-image: url('bandcamp_background.jpg');
+	background-repeat: repeat;
+	background-attachment: fixed;
+  background-size: auto;
+}
+
+#blur {
+  /* background-color: rgba(0, 0, 0, 0.61); */
+  background-color: rgba(255, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(1px);
+}
+
+#treebg {
+  top:0px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  pointer-events: none;
+  /* mix-blend-mode:screen; */
+  opacity:50%;
+  mix-blend-mode:luminosity;
+  /* mix-blend-mode:soft-light; */
 }
 
 @media (max-width: 810px) {

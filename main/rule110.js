@@ -12,7 +12,7 @@ var music = [];
 var randomSong;
 
 function preload() {
-  music.push(loadSound('../elements/floatingQUIETtrans.ogg'));
+  music.push(loadSound('elements/floating.ogg'));
   //this also decides which scene is going to be chosen
   randomSong = music[Math.floor(random() * music.length)];
   //randomSong = music[3];
@@ -21,7 +21,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight -4);
   arrayLim = displayWidth / size;
-  background(0);
+  background(4, 0, 24, 50);
   stroke(100);
   noStroke();
   //creates random array
@@ -88,7 +88,8 @@ function generate(left, center, right) {
   //checks at array location and sets color
 
   if (array[center] == 1) {
-    fill(0,0,0,255);
+    // fill(0,0,0,255);
+    fill(0,0,0,50)
 
   } else {
 
