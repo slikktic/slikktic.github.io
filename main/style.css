@@ -121,7 +121,19 @@ a:hover, a:active {
   /* mix-blend-mode:soft-light; */
 }
 
-@media (max-width: 810px) {
+@media (max-width: 840px) {
+  .primarydiv {
+    width: 90%;
+    left: 5%;
+  }
+
+  #secondarydiv {
+    width: 85%;
+    left: 7.5%;
+  }
+}
+
+@media (max-width: 840px) {
   .primarydiv {
     width: 90%;
     left: 5%;
