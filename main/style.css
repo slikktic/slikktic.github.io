@@ -36,7 +36,7 @@ a:link, a:visited {
   text-decoration: none;
   display: block;
   background: #150d42;
-  width:20%;
+  width:23%;
 }
 
 a:hover, a:active {
@@ -133,14 +133,13 @@ a:hover, a:active {
   }
 }
 
-@media (max-width: 840px) {
-  .primarydiv {
-    width: 90%;
-    left: 5%;
+@media (max-width: 700px) {
+  #tabs {
+    flex-direction: column;
+    align-items: center;
   }
 
-  #secondarydiv {
-    width: 85%;
-    left: 7.5%;
+  a:link, a:visited {
+    width: 100%;
   }
 }
