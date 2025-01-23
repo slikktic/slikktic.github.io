@@ -20,17 +20,6 @@ canvas {
   backdrop-filter: blur(5px);
 }
 
-.primarydiv {
-  position: fixed;
-  top: 0;
-  left: 12.5%;
-  padding: 0;
-  margin: 0;
-  width: 75%;
-  height: 100%;
-  background-color: #040018;
-}
-
 a:link, a:visited {
   color: #ffffff;
   text-decoration: none;
@@ -45,9 +34,25 @@ a:hover, a:active {
   border-color:#150d42;
 }
 
+.a {
+  display:flex;
+  align-content:center;
+}
+
 .button:hover {
   background-color:rgb(177, 7, 7);
   font-size:50px;
+}
+
+.primarydiv {
+  position: fixed;
+  top: 0;
+  left: 12.5%;
+  padding: 0;
+  margin: 0;
+  width: 75%;
+  height: 100%;
+  background-color: #040018;
 }
 
 #secondarydiv {
@@ -108,7 +113,12 @@ a:hover, a:active {
   height: 100%;
   position:absolute;
   pointer-events: none;
-  
+  background-image: url('starbg2.gif');
+}
+
+#o2 {
+  pointer-events: none;
+  background-image: url('starbg2.gif');
 }
 
 #o1 {
