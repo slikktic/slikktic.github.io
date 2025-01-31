@@ -169,7 +169,7 @@ a.link:hover, a.link:active {
     align-items: center;
   }
 
-  a:link, a:visited {
+  a.link:link, a.link:visited {
     width: 100%;
   }
 }
