@@ -67,6 +67,22 @@ a.link:hover, a.link:active {
   background-color: #040018;
 }
 
+#key {
+  cursor: pointer;
+  position: fixed;
+  right:25%;
+  top:50%;
+}
+
+#door {
+  transition: filter 5s ease-in-out;
+  pointer-events: none;
+}
+
+#door:hover {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));
+}
+
 #secondarydiv {
   position: fixed;
   left: 15%;

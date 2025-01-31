@@ -7,13 +7,19 @@
   <title>Main</title>
 
   <link rel="stylesheet" href="main/style.css">
+  <script src="main/sfx.js" defer></script>
+  <script src="main/entrance.js" defer></script>
 </head>
 
 <body id="starsbg" class="center">
   <div class="entrance">
     <a href="main.html">
-      <img src="main/door.png">
+      <audio id="doorSound">
+        <source src="elements/commune_var.mp3" type="audio/mpeg">
+      </audio>
+      <img src="main/door.png" id="door">
     </a>
+    <img src="main/key.png" id="key" onclick="keyFunction()">
   </div>
 </body>
 
