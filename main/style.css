@@ -1,7 +1,7 @@
-body {
+body, html {
   padding: 0;
   margin: 0;
-  
+  height: 100%;
 }
 
 canvas {
@@ -20,7 +20,7 @@ canvas {
   backdrop-filter: blur(5px);
 }
 
-a:link, a:visited {
+a.link:link, a.link:visited {
   color: #ffffff;
   text-decoration: none;
   display: block;
@@ -28,13 +28,25 @@ a:link, a:visited {
   width:23%;
 }
 
-a:hover, a:active {
+a.link:hover, a.link:active {
   background-color:rgb(40, 39, 85);
   border-style: solid;
   border-color:#150d42;
 }
 
-.a {
+.entrance {
+  text-align: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  width:100%;
+}
+
+.link {
   display:flex;
   align-content:center;
 }

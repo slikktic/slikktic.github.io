@@ -10,28 +10,36 @@
   <script src="p5.js"></script>
   <script src="addons/p5.sound.js"></script>
   <script src="main/rule110.js"></script>
+  <script src="main/time.js" defer></script>
 </head>
 
-<body id="starsbg">
+<body id="bandcampbg">
+  
   <main onclick="playMusic()"></main>
   
-  <div class="primarydiv" id="starsbg">
+  <div class="primarydiv" id="bandcampbg">
+    <div class="overlay" id="o1"></div>
+    <div id="o2"></div>
     <div class="primarydiv" id="secondarydiv">
 
       <div id="titlebox">
         <p id="txt"> &lt;ezeki.xyz&gt;</h1>
         <div id="tabs">
-          <!-- <a href="" class="a">test</a>
-          <button class="tablinks">glarg</button>
-          <button class="tablinks">wungo</button>
-          <button class="tablinks">quang</button> -->
+          <a href="https://ezeki.bandcamp.com" class="link">
+            <!-- <img src="main/bandcamplogo.png" width="50px"> -->
+            bandcamp
+          </a>
+          <a href="https://soundcloud.com/eze_ki" class="link">soundcloud</a>
+          <a href="https://bsky.app/profile/ezeki.xyz" class="link">bluesky</a>
 
         </div>
       </div>
 
-      <p id="txt">click around :3</h1>
+      <p id="txt">home of my mind</h1>
+      <p id="txt">note: this site is very WIP currently as i'm primarily using it to link socials.</p>
     </div>
   </div>
+  <img src="main/trans_tree.png" alt="nowork" id="treebg">
 </body>
 
 </html>
