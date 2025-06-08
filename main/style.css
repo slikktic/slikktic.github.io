@@ -6,6 +6,7 @@ body, html {
 
 canvas {
  height:100%;
+ /* backdrop-filter: blur(5px); */
 }
 
 main {
@@ -13,11 +14,7 @@ main {
   padding: 0;
   margin: 0;
   text-align: center;
-  /* mix-blend-mode:color-dodge; */
-}
-
-canvas {
-  backdrop-filter: blur(5px);
+  mix-blend-mode:color-dodge;
 }
 
 a.link:link, a.link:visited {
