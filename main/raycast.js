@@ -102,7 +102,7 @@ function draw() {
   move();
   if (finished == false) {
     if (hyp < 1.5) {
-      window.location.href = 'main.html'; //"https://slikktic.github.io/main.html";
+      window.location.href = 'main.html';
       // printOut("FINISH");
       finished = true;
     }
