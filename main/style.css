@@ -14,7 +14,6 @@ main {
   padding: 0;
   margin: 0;
   text-align: center;
-  mix-blend-mode:color-dodge;
 }
 
 a.link:link, a.link:visited {
@@ -66,6 +65,10 @@ a.link:hover, a.link:active {
   height: 100%;
   background-color: #040018;
   flex-direction:column;
+}
+ 
+#rulemachine {
+  mix-blend-mode:color-dodge;
 }
 
 #key {
